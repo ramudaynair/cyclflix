@@ -13,9 +13,14 @@ export default function Home() {
     const savedScrollY = sessionStorage.getItem('scrollPosition')
     const scrollPosition = savedScrollY ? parseInt(savedScrollY) : 0
     
-    // Only show splash if we're at the top (intro section)
-    if (scrollPosition < 100) {
+    console.log('Scroll position:', scrollPosition) // Debug log
+    
+    // Show splash if at top or first visit (no saved scroll position)
+    if (!savedScrollY || scrollPosition < 100) {
+      console.log('Showing splash') // Debug log
       setShowSplash(true)
+    } else {
+      console.log('Skipping splash - scrolled down') // Debug log
     }
     
     // Restore scroll position after component mounts
