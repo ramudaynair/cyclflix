@@ -3,8 +3,10 @@
 import { motion } from "framer-motion"
 import { Header } from "@/components/header"
 import { Footer } from "@/components/footer"
+import { useState } from "react"
 
 export default function Terms() {
+  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null)
   return (
     <div className="min-h-screen bg-black text-white">
       <Header />
@@ -66,10 +68,27 @@ export default function Terms() {
                 initial={{ opacity: 0, y: 40 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: index * 0.1 }}
-                className="bg-white/[0.02] border border-white/10 rounded-xl p-8 hover:border-[#E50914]/30 transition-all duration-500"
+                onMouseEnter={() => setHoveredIndex(index)}
+                onMouseLeave={() => setHoveredIndex(null)}
+                className="group relative bg-white/[0.02] border border-white/10 rounded-xl p-8 transition-all duration-500 hover:border-[#E50914]/50 overflow-hidden"
               >
-                <h2 className="text-xl font-bold text-white mb-4">{section.title}</h2>
-                <p className="text-white/70 leading-relaxed">{section.content}</p>
+                <motion.div
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: hoveredIndex === index ? 1 : 0 }}
+                  className="absolute inset-0 bg-gradient-to-br from-[#E50914]/10 via-transparent to-transparent pointer-events-none"
+                />
+
+                <motion.div
+                  initial={{ scaleX: 0 }}
+                  animate={{ scaleX: hoveredIndex === index ? 1 : 0 }}
+                  transition={{ duration: 0.3 }}
+                  className="absolute top-0 left-0 w-full h-[2px] bg-gradient-to-r from-[#E50914] to-transparent origin-left"
+                />
+
+                <div className="relative z-10">
+                  <h2 className="text-xl font-bold text-white mb-4">{section.title}</h2>
+                  <p className="text-white/70 leading-relaxed">{section.content}</p>
+                </div>
               </motion.div>
             ))}
           </div>

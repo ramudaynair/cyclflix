@@ -89,6 +89,7 @@ export function FeaturesSection() {
   const ref = useRef(null)
   const isInView = useInView(ref, { once: true, margin: "-50px" })
   const [expandedIndex, setExpandedIndex] = useState<number | null>(null)
+  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null)
 
   return (
     <section id="features" className="bg-black py-24 md:py-32 border-t border-white/5">
@@ -140,11 +141,31 @@ export function FeaturesSection() {
                 delay: index * 0.1,
                 ease: [0.25, 0.46, 0.45, 0.94],
               }}
+              onMouseEnter={() => setHoveredIndex(index)}
+              onMouseLeave={() => setHoveredIndex(null)}
               className="group relative bg-white/[0.02] border border-white/10 rounded-xl overflow-hidden transition-all duration-500 hover:border-[#E50914]/50 hover:bg-white/[0.04]"
             >
-              <div className="p-8">
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: hoveredIndex === index ? 1 : 0 }}
+                className="absolute inset-0 bg-gradient-to-br from-[#E50914]/10 via-transparent to-transparent pointer-events-none"
+              />
+
+              <motion.div
+                initial={{ scaleX: 0 }}
+                animate={{ scaleX: hoveredIndex === index ? 1 : 0 }}
+                transition={{ duration: 0.3 }}
+                className="absolute top-0 left-0 w-full h-[2px] bg-gradient-to-r from-[#E50914] to-transparent origin-left"
+              />
+
+              <div className="relative z-10 p-8">
                 <motion.div
                   className="w-14 h-14 rounded-xl bg-[#E50914]/10 flex items-center justify-center mb-6"
+                  animate={{
+                    scale: hoveredIndex === index ? 1.1 : 1,
+                    rotate: hoveredIndex === index ? 5 : 0,
+                  }}
+                  transition={{ duration: 0.3 }}
                 >
                   <feature.icon className="h-7 w-7 text-[#E50914]" />
                 </motion.div>

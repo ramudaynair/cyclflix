@@ -26,7 +26,7 @@ export function HeroSection() {
       id="the-n1"
       className="relative min-h-screen flex items-center justify-center bg-black overflow-hidden"
       style={{
-        backgroundImage: 'url(/matte-black-carbon-fiber-bicycle-side-profile-on-p.jpg)',
+        backgroundImage: 'url(/images/ni.jpeg)',
         backgroundSize: 'cover',
         backgroundPosition: 'center',
         backgroundRepeat: 'no-repeat'
