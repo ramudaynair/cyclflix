@@ -8,26 +8,13 @@ const _geist = Geist({ subsets: ["latin"] })
 const _geistMono = Geist_Mono({ subsets: ["latin"] })
 
 export const metadata: Metadata = {
-  title: "Netflix N1 | Engineered for the Long Run",
+  title: "Cycleflix",
   description:
-    "Experience the N1 - a fusion of aerospace-grade carbon and intelligent drive systems. The ultimate high-performance luxury bicycle.",
+    "Experience the Cycleflix - a fusion of aerospace-grade carbon and intelligent drive systems. The ultimate high-performance luxury bicycle.",
   generator: "v0.app",
   icons: {
-    icon: [
-      {
-        url: "/icon-light-32x32.png",
-        media: "(prefers-color-scheme: light)",
-      },
-      {
-        url: "/icon-dark-32x32.png",
-        media: "(prefers-color-scheme: dark)",
-      },
-      {
-        url: "/icon.svg",
-        type: "image/svg+xml",
-      },
-    ],
-    apple: "/apple-icon.png",
+    icon: "data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3e%3ctext y='75' font-size='80' font-family='system-ui' font-weight='900' fill='%23E50914'%3eC%3c/text%3e%3c/svg%3e",
+    apple: "data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3e%3ctext y='75' font-size='80' font-family='system-ui' font-weight='900' fill='%23E50914'%3eC%3c/text%3e%3c/svg%3e",
   },
 }
 
