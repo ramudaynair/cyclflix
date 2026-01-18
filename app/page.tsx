@@ -7,37 +7,34 @@ import { HomeContent } from "@/components/home-content"
 
 export default function Home() {
   const [showSplash, setShowSplash] = useState(false)
+  const [contentReady, setContentReady] = useState(false)
 
   useEffect(() => {
-    // Check if we should show splash based on scroll position
     const savedScrollY = sessionStorage.getItem('scrollPosition')
     const scrollPosition = savedScrollY ? parseInt(savedScrollY) : 0
     
-    console.log('Scroll position:', scrollPosition) // Debug log
-    
-    // Show splash if at top or first visit (no saved scroll position)
+    // Show splash if at top or first visit
     if (!savedScrollY || scrollPosition < 100) {
-      console.log('Showing splash') // Debug log
       setShowSplash(true)
     } else {
-      console.log('Skipping splash - scrolled down') // Debug log
+      setContentReady(true)
     }
     
-    // Restore scroll position after component mounts
-    if (savedScrollY) {
+    // Restore scroll position
+    if (savedScrollY && scrollPosition >= 100) {
       setTimeout(() => {
         window.scrollTo(0, scrollPosition)
         sessionStorage.removeItem('scrollPosition')
-      }, showSplash ? 0 : 100)
+      }, 100)
     }
   }, [])
 
   const handleSplashComplete = useCallback(() => {
     setShowSplash(false)
+    setContentReady(true)
   }, [])
 
   useEffect(() => {
-    // Save scroll position on page unload
     const handleBeforeUnload = () => {
       sessionStorage.setItem('scrollPosition', window.scrollY.toString())
     }
@@ -48,15 +45,25 @@ export default function Home() {
 
   return (
     <>
-      <AnimatePresence mode="wait">{showSplash && <TudumSplash onComplete={handleSplashComplete} />}</AnimatePresence>
+      <AnimatePresence mode="wait">
+        {showSplash && <TudumSplash onComplete={handleSplashComplete} />}
+      </AnimatePresence>
 
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: showSplash ? 0 : 1 }}
-        transition={{ duration: 0.5, ease: "easeInOut" }}
-      >
-        <HomeContent />
-      </motion.div>
+      {contentReady && (
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.5 }}
+        >
+          <HomeContent />
+        </motion.div>
+      )}
+      
+      {!showSplash && !contentReady && (
+        <div className="fixed inset-0 bg-black flex items-center justify-center">
+          <div className="text-white">Loading...</div>
+        </div>
+      )}
     </>
   )
 }
