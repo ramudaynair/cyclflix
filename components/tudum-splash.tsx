@@ -14,48 +14,42 @@ export function TudumSplash({ onComplete }: { onComplete: () => void }) {
     if (globalAudio) return // Already playing or played
     
     try {
-      // Create persistent audio that won't be destroyed with component
       globalAudio = new Audio()
       globalAudio.src = 'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/netflix-tudum-sfx-n-c-zAKXEHBYl3ICOeHH6eA6pqwzZFt9sF.mp3'
       globalAudio.volume = 0.6
       globalAudio.crossOrigin = 'anonymous'
       
-      // Clean up when audio ends
       globalAudio.onended = () => {
         globalAudio = null
       }
       
       await globalAudio.play()
       setAudioPlayed(true)
-      console.log('Tudum sound started')
     } catch (error) {
-      console.log('Audio failed:', error)
       globalAudio = null
     }
   }
 
   useEffect(() => {
-    // Try to play immediately when logo appears
     const logoTimer = setTimeout(() => {
       setPhase("logo")
       playTudumSound()
-    }, 300)
+    }, 200)
     
-    const glowTimer = setTimeout(() => setPhase("glow"), 900)
-    const disassembleTimer = setTimeout(() => setPhase("disassemble"), 1900)
-    const completeTimer = setTimeout(() => onComplete(), 2400)
+    const glowTimer = setTimeout(() => setPhase("glow"), 600)
+    const disassembleTimer = setTimeout(() => setPhase("disassemble"), 1400)
+    const completeTimer = setTimeout(() => onComplete(), 1800)
 
     return () => {
       clearTimeout(logoTimer)
       clearTimeout(glowTimer)
       clearTimeout(disassembleTimer)
       clearTimeout(completeTimer)
-      // Don't destroy globalAudio here - let it finish playing
     }
   }, [])
 
   const NetflixN = () => (
-    <svg viewBox="0 0 100 100" className="w-32 h-32 md:w-48 md:h-48">
+    <svg viewBox="0 0 100 100" className="w-24 h-24 sm:w-32 sm:h-32 md:w-48 md:h-48">
       <defs>
         <linearGradient id="netflix-gradient" x1="0%" y1="0%" x2="100%" y2="0%">
           <stop offset="0%" stopColor="#E50914" />
@@ -70,23 +64,17 @@ export function TudumSplash({ onComplete }: { onComplete: () => void }) {
   )
 
   return (
-    <motion.div
-      className="fixed inset-0 z-[100] bg-black flex items-center justify-center overflow-hidden cursor-pointer"
-      initial={{ opacity: 1 }}
-      exit={{ opacity: 0 }}
-      transition={{ duration: 0.5, ease: "easeInOut" }}
-      onClick={playTudumSound}
-    >
+    <div className="fixed inset-0 z-[100] bg-black flex items-center justify-center overflow-hidden cursor-pointer" onClick={playTudumSound}>
       <div className="relative">
         {/* Netflix N Logo */}
         {phase !== "black" && (
           <motion.div
-            initial={{ opacity: 0, scale: 0.8 }}
+            initial={{ opacity: 0, scale: 0.9 }}
             animate={{ 
               opacity: phase === "disassemble" ? 0 : 1,
               scale: 1
             }}
-            transition={{ duration: 0.6, ease: "easeOut" }}
+            transition={{ duration: 0.4, ease: "easeOut" }}
           >
             <NetflixN />
           </motion.div>
@@ -97,40 +85,31 @@ export function TudumSplash({ onComplete }: { onComplete: () => void }) {
           <motion.div
             className="absolute inset-0 flex items-center justify-center pointer-events-none"
             initial={{ opacity: 0 }}
-            animate={{ opacity: [0, 0.8, 0.6] }}
-            transition={{ duration: 0.6, ease: "easeInOut" }}
+            animate={{ opacity: [0, 0.6, 0.4] }}
+            transition={{ duration: 0.4, ease: "easeInOut" }}
           >
-            <div className="w-32 h-32 md:w-48 md:h-48 bg-[#FF2A2A] opacity-30 blur-xl" />
+            <div className="w-24 h-24 sm:w-32 sm:h-32 md:w-48 md:h-48 bg-[#FF2A2A] opacity-20 blur-lg" />
           </motion.div>
         )}
 
-        {/* Disassembly light strips */}
+        {/* Simplified disassembly */}
         {phase === "disassemble" && (
           <div className="absolute inset-0 flex items-center justify-center">
             <motion.div
-              className="absolute w-4 h-40 md:w-5 md:h-56"
-              style={{ left: "calc(50% - 24px)" }}
-              initial={{ x: 0, scaleY: 1, opacity: 1 }}
-              animate={{ x: -60, scaleY: 1.3, opacity: 0 }}
-              transition={{ duration: 0.5, ease: "easeIn" }}
+              className="absolute w-3 h-32 sm:w-4 sm:h-40 md:w-5 md:h-56"
+              style={{ left: "calc(50% - 18px)" }}
+              initial={{ x: 0, opacity: 1 }}
+              animate={{ x: -40, opacity: 0 }}
+              transition={{ duration: 0.3, ease: "easeIn" }}
             >
               <div className="w-full h-full bg-gradient-to-b from-transparent via-[#E50914] to-transparent blur-sm" />
             </motion.div>
             <motion.div
-              className="absolute w-3 h-40 md:w-4 md:h-56"
-              style={{ left: "calc(50% - 2px)", transform: "rotate(15deg)" }}
-              initial={{ x: 0, scaleY: 1, opacity: 1 }}
-              animate={{ x: 0, scaleY: 1.4, opacity: 0 }}
-              transition={{ duration: 0.5, ease: "easeIn", delay: 0.1 }}
-            >
-              <div className="w-full h-full bg-gradient-to-b from-transparent via-[#E50914] to-transparent blur-sm" />
-            </motion.div>
-            <motion.div
-              className="absolute w-4 h-40 md:w-5 md:h-56"
-              style={{ left: "calc(50% + 20px)" }}
-              initial={{ x: 0, scaleY: 1, opacity: 1 }}
-              animate={{ x: 60, scaleY: 1.3, opacity: 0 }}
-              transition={{ duration: 0.5, ease: "easeIn" }}
+              className="absolute w-3 h-32 sm:w-4 sm:h-40 md:w-5 md:h-56"
+              style={{ left: "calc(50% + 14px)" }}
+              initial={{ x: 0, opacity: 1 }}
+              animate={{ x: 40, opacity: 0 }}
+              transition={{ duration: 0.3, ease: "easeIn" }}
             >
               <div className="w-full h-full bg-gradient-to-b from-transparent via-[#E50914] to-transparent blur-sm" />
             </motion.div>
@@ -139,10 +118,10 @@ export function TudumSplash({ onComplete }: { onComplete: () => void }) {
       </div>
       
       {!globalAudio && (
-        <div className="absolute bottom-8 text-white/50 text-sm animate-pulse">
-          Click for sound
+        <div className="absolute bottom-8 text-white/50 text-xs sm:text-sm animate-pulse">
+          Tap for sound
         </div>
       )}
-    </motion.div>
+    </div>
   )
 }

@@ -27,16 +27,14 @@ export function Header() {
 
   return (
     <motion.header
-      initial={{ y: -100 }}
-      animate={{ y: 0 }}
-      transition={{ duration: 0.6, ease: "easeOut" }}
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
+      initial={false}
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
         scrolled
-          ? "bg-black/95 backdrop-blur-md border-b border-white/10 shadow-[0_10px_30px_rgba(0,0,0,0.5)]"
+          ? "bg-black/95 backdrop-blur-sm border-b border-white/10"
           : "bg-transparent border-b border-transparent"
       }`}
     >
-      <nav className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4 lg:px-8">
+      <nav className="mx-auto flex max-w-7xl items-center justify-between px-4 py-3 sm:px-6 sm:py-4 lg:px-8">
         <motion.a 
           href="/" 
           className="flex items-center" 
@@ -44,11 +42,11 @@ export function Header() {
           whileTap={{ scale: 0.95 }}
         >
           <motion.span
-            className="text-2xl font-black tracking-tight flex items-baseline"
+            className="text-xl sm:text-2xl font-black tracking-tight flex items-baseline"
             animate={{
-              textShadow: scrolled ? "0 0 20px rgba(229,9,20,0.5)" : "0 0 0px rgba(229,9,20,0)",
+              textShadow: scrolled ? "0 0 15px rgba(229,9,20,0.4)" : "0 0 0px rgba(229,9,20,0)",
             }}
-            transition={{ duration: 0.3 }}
+            transition={{ duration: 0.2 }}
           >
             <span className="text-[#E50914]">C</span>
             <span className="text-white">YCLE</span>
@@ -62,10 +60,8 @@ export function Header() {
             <motion.a
               key={link.href}
               href={link.href}
-              className="relative text-sm text-white/70 hover:text-white transition-colors duration-300 py-2"
-              initial={{ opacity: 0, y: -20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.4, delay: 0.1 * index }}
+              className="relative text-sm text-white/70 hover:text-white transition-colors duration-200 py-2"
+              initial={false}
               whileHover="hover"
               onClick={(e) => {
                 e.preventDefault()
@@ -88,73 +84,39 @@ export function Header() {
         </div>
 
         {/* Mobile Menu Button */}
-        <motion.button
-          className="md:hidden text-white"
+        <button
+          className="md:hidden text-white p-2 -mr-2"
           onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
           aria-label="Toggle menu"
-          whileTap={{ scale: 0.9 }}
         >
-          <AnimatePresence mode="wait">
-            {mobileMenuOpen ? (
-              <motion.div
-                key="close"
-                initial={{ rotate: -90, opacity: 0 }}
-                animate={{ rotate: 0, opacity: 1 }}
-                exit={{ rotate: 90, opacity: 0 }}
-                transition={{ duration: 0.2 }}
-              >
-                <X className="h-6 w-6" />
-              </motion.div>
-            ) : (
-              <motion.div
-                key="menu"
-                initial={{ rotate: 90, opacity: 0 }}
-                animate={{ rotate: 0, opacity: 1 }}
-                exit={{ rotate: -90, opacity: 0 }}
-                transition={{ duration: 0.2 }}
-              >
-                <Menu className="h-6 w-6" />
-              </motion.div>
-            )}
-          </AnimatePresence>
-        </motion.button>
+          {mobileMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+        </button>
       </nav>
 
-      <AnimatePresence>
-        {mobileMenuOpen && (
-          <motion.div
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: "auto" }}
-            exit={{ opacity: 0, height: 0 }}
-            transition={{ duration: 0.3 }}
-            className="md:hidden bg-black/95 backdrop-blur-md border-t border-white/5 overflow-hidden"
-          >
-            <div className="flex flex-col items-center gap-6 py-8">
-              {navLinks.map((link, index) => (
-                <motion.a
-                  key={link.href}
-                  href={link.href}
-                  className="text-sm text-white/70 hover:text-white transition-colors"
-                  initial={{ opacity: 0, x: -20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ duration: 0.3, delay: 0.1 * index }}
-                  onClick={(e) => {
-                    e.preventDefault()
-                    setMobileMenuOpen(false)
-                    if (window.location.pathname !== '/') {
-                      router.push('/' + link.href)
-                    } else {
-                      document.querySelector(link.href)?.scrollIntoView({ behavior: 'smooth' })
-                    }
-                  }}
-                >
-                  {link.label}
-                </motion.a>
-              ))}
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+      {mobileMenuOpen && (
+        <div className="md:hidden bg-black/95 backdrop-blur-sm border-t border-white/5">
+          <div className="flex flex-col items-center gap-4 py-6">
+            {navLinks.map((link) => (
+              <a
+                key={link.href}
+                href={link.href}
+                className="text-sm text-white/70 hover:text-white transition-colors py-2"
+                onClick={(e) => {
+                  e.preventDefault()
+                  setMobileMenuOpen(false)
+                  if (window.location.pathname !== '/') {
+                    router.push('/' + link.href)
+                  } else {
+                    document.querySelector(link.href)?.scrollIntoView({ behavior: 'smooth' })
+                  }
+                }}
+              >
+                {link.label}
+              </a>
+            ))}
+          </div>
+        </div>
+      )}
     </motion.header>
   )
 }
