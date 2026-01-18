@@ -36,15 +36,6 @@ export function TudumSplash({ onComplete }: { onComplete: () => void }) {
       { p: 'FINAL', d: 8500 }
     ]
 
-    globalAudio?.play().catch(() => {})
-    
-    // Also try to play on first user interaction
-    const handleFirstClick = () => {
-      playAudio()
-      document.removeEventListener('click', handleFirstClick)
-    }
-    document.addEventListener('click', handleFirstClick)
-
     const timers = sequence.map(s => setTimeout(() => {
       setPhase(s.p as any)
       if (s.p === 'FINAL' && onComplete) onComplete()
