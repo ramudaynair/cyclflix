@@ -7,6 +7,18 @@ let globalAudio: HTMLAudioElement | null = null
 
 export function TudumSplash({ onComplete }: { onComplete: () => void }) {
   const [phase, setPhase] = useState<'SILENCE' | 'SHOW' | 'GLOW' | 'NETFLIX' | 'WHEEL' | 'FINAL'>('SILENCE')
+  const [audioPlayed, setAudioPlayed] = useState(false)
+
+  const playAudio = async () => {
+    if (!audioPlayed && globalAudio) {
+      try {
+        await globalAudio.play()
+        setAudioPlayed(true)
+      } catch (e) {
+        console.log('Audio play failed:', e)
+      }
+    }
+  }
 
   useEffect(() => {
     if (!globalAudio) {
@@ -25,6 +37,13 @@ export function TudumSplash({ onComplete }: { onComplete: () => void }) {
     ]
 
     globalAudio?.play().catch(() => {})
+    
+    // Also try to play on first user interaction
+    const handleFirstClick = () => {
+      playAudio()
+      document.removeEventListener('click', handleFirstClick)
+    }
+    document.addEventListener('click', handleFirstClick)
 
     const timers = sequence.map(s => setTimeout(() => {
       setPhase(s.p as any)
@@ -35,7 +54,10 @@ export function TudumSplash({ onComplete }: { onComplete: () => void }) {
   }, [onComplete])
 
   return (
-    <div className="fixed inset-0 z-[100] bg-black flex items-center justify-center overflow-hidden select-none">
+    <div 
+      className="fixed inset-0 z-[100] bg-black flex items-center justify-center overflow-hidden select-none cursor-pointer"
+      onClick={playAudio}
+    >
       <AnimatePresence mode="wait">
         {phase !== 'FINAL' && phase !== 'NETFLIX' && phase !== 'WHEEL' && (
           <motion.div
@@ -163,6 +185,12 @@ export function TudumSplash({ onComplete }: { onComplete: () => void }) {
           </motion.div>
         )}
       </AnimatePresence>
+      
+      {!audioPlayed && (
+        <div className="absolute bottom-8 text-white/40 text-xs animate-pulse">
+          Click anywhere for sound
+        </div>
+      )}
     </div>
   )
 }
