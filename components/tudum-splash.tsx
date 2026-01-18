@@ -11,7 +11,7 @@ export function TudumSplash({ onComplete }: { onComplete: () => void }) {
   const audioRef = useRef<HTMLAudioElement | null>(null)
 
   const playTudumSound = async () => {
-    if (audioPlayed || globalAudio) return
+    if (globalAudio) return // Already playing or played
     
     try {
       // Create persistent audio that won't be destroyed with component
@@ -138,7 +138,7 @@ export function TudumSplash({ onComplete }: { onComplete: () => void }) {
         )}
       </div>
       
-      {!audioPlayed && (
+      {!globalAudio && (
         <div className="absolute bottom-8 text-white/50 text-sm animate-pulse">
           Click for sound
         </div>
