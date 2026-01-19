@@ -2,10 +2,11 @@
 
 import { CheckCircle, ArrowLeft, ShoppingCart } from "lucide-react"
 import { Button } from "@/components/ui/button"
-import { useRouter, useSearchParams } from "next/navigation"
-import { useEffect, useState } from "react"
+import { useRouter } from "next/navigation"
+import { useEffect, useState, Suspense } from "react"
+import { useSearchParams } from "next/navigation"
 
-export default function CartPage() {
+function CartContent() {
   const router = useRouter()
   const searchParams = useSearchParams()
   const [totalPrice, setTotalPrice] = useState(2999)
@@ -61,5 +62,13 @@ export default function CartPage() {
         </div>
       </div>
     </div>
+  )
+}
+
+export default function CartPage() {
+  return (
+    <Suspense fallback={<div className="min-h-screen bg-black flex items-center justify-center"><div className="text-white">Loading...</div></div>}>
+      <CartContent />
+    </Suspense>
   )
 }
