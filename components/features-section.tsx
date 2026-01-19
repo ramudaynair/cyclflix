@@ -115,7 +115,7 @@ export function FeaturesSection() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: 0.3 }}
-            className="text-4xl md:text-6xl font-black text-white uppercase tracking-tight mb-4"
+            className="text-4xl md:text-6xl font-black text-white uppercase tracking-tight mb-4 text-reveal"
           >
             Smart Entertainment
           </motion.h2>
@@ -143,7 +143,8 @@ export function FeaturesSection() {
               }}
               onMouseEnter={() => setHoveredIndex(index)}
               onMouseLeave={() => setHoveredIndex(null)}
-              className="group relative bg-white/[0.02] border border-white/10 rounded-xl overflow-hidden transition-all duration-500 hover:border-[#E50914]/50 hover:bg-white/[0.04]"
+              className="group relative bg-white/[0.02] border border-white/10 rounded-xl overflow-hidden transition-all duration-500 hover:border-[#E50914]/50 hover:bg-white/[0.04] gsap-parallax magnetic-tile"
+              data-speed={0.3 + (index % 3) * 0.2}
             >
               <motion.div
                 initial={{ opacity: 0 }}

@@ -40,7 +40,7 @@ export function TechGrid() {
           transition={{ duration: 0.8 }}
           className="text-center mb-16"
         >
-          <motion.h2 className="text-3xl md:text-5xl font-bold text-white uppercase tracking-tight mb-4">
+          <motion.h2 className="text-3xl md:text-5xl font-bold text-white uppercase tracking-tight mb-4 text-reveal">
             Entertainment Tech
           </motion.h2>
           <p className="text-white/50 text-lg max-w-xl mx-auto">Revolutionary cycling experience with integrated Netflix streaming and smart features.</p>
@@ -55,7 +55,8 @@ export function TechGrid() {
               transition={{ duration: 0.8, delay: index * 0.2, ease: "easeOut" }}
               onMouseEnter={() => setHoveredIndex(index)}
               onMouseLeave={() => setHoveredIndex(null)}
-              className="group relative bg-black border border-white/10 rounded-lg p-8 transition-all duration-500 hover:border-[#E50914]/50 hover:bg-white/[0.02] overflow-hidden"
+              className="group relative bg-black border border-white/10 rounded-lg p-8 transition-all duration-500 hover:border-[#E50914]/50 hover:bg-white/[0.02] overflow-hidden magnetic-tile gsap-parallax morph-shape"
+              data-speed={0.5 + index * 0.1}
             >
               <motion.div
                 initial={{ opacity: 0 }}

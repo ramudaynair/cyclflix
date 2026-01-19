@@ -1,4 +1,17 @@
+"use client"
+
+import { useRouter } from "next/navigation"
+
 export function Footer() {
+  const router = useRouter()
+
+  const handleNavigation = (path: string) => {
+    // Save the current scroll position from the main page
+    sessionStorage.setItem('scrollPosition', window.scrollY.toString())
+    console.log('Footer navigation - saving main page scroll:', window.scrollY)
+    router.push(path)
+  }
+
   return (
     <footer className="bg-black border-t border-white/5 py-12">
       <div className="max-w-7xl mx-auto px-6 lg:px-8">
@@ -19,12 +32,18 @@ export function Footer() {
             <span className="text-white/50 text-sm">© 2026 CYCLEFLIX. All rights reserved.</span>
           </div>
           <div className="flex items-center gap-8">
-            <a href="/privacy" className="text-white/50 hover:text-white text-sm transition-colors">
+            <button 
+              onClick={() => handleNavigation('/privacy')}
+              className="text-white/50 hover:text-white text-sm transition-colors"
+            >
               Privacy
-            </a>
-            <a href="/terms" className="text-white/50 hover:text-white text-sm transition-colors">
+            </button>
+            <button 
+              onClick={() => handleNavigation('/terms')}
+              className="text-white/50 hover:text-white text-sm transition-colors"
+            >
               Terms
-            </a>
+            </button>
             <a 
               href="mailto:info@cyclflix.com" 
               className="text-white/50 hover:text-white text-sm transition-colors"

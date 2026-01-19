@@ -67,10 +67,12 @@ export function Header() {
             if (window.location.pathname !== '/') {
               // On privacy/terms pages, go directly to main page without tudum
               sessionStorage.setItem('skipSplash', 'true')
+              sessionStorage.setItem('scrollPosition', '0')
               router.push('/')
             } else {
               // On main page, trigger tudum splash
               sessionStorage.removeItem('skipSplash')
+              sessionStorage.removeItem('scrollPosition')
               window.location.reload()
             }
           }}
