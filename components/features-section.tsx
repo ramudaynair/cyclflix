@@ -87,7 +87,7 @@ const features = [
 
 export function FeaturesSection() {
   const ref = useRef(null)
-  const isInView = useInView(ref, { once: true, margin: "-50px" })
+  const isInView = useInView(ref, { once: true, margin: "-20px", amount: 0.3 })
   const [expandedIndex, setExpandedIndex] = useState<number | null>(null)
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null)
 
@@ -134,12 +134,12 @@ export function FeaturesSection() {
           {features.map((feature, index) => (
             <motion.div
               key={index}
-              initial={{ opacity: 0, y: 40, scale: 0.95 }}
+              initial={{ opacity: 0, y: 60, scale: 0.8 }}
               animate={isInView ? { opacity: 1, y: 0, scale: 1 } : {}}
               transition={{
-                duration: 0.5,
-                delay: index * 0.1,
-                ease: [0.25, 0.46, 0.45, 0.94],
+                duration: 0.8,
+                delay: index * 0.15,
+                ease: "easeOut",
               }}
               onMouseEnter={() => setHoveredIndex(index)}
               onMouseLeave={() => setHoveredIndex(null)}

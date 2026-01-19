@@ -27,7 +27,7 @@ const specs = [
 
 export function TechGrid() {
   const ref = useRef(null)
-  const isInView = useInView(ref, { once: true, margin: "-100px" })
+  const isInView = useInView(ref, { once: true, margin: "-20px", amount: 0.3 })
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null)
 
   return (
@@ -50,9 +50,9 @@ export function TechGrid() {
           {specs.map((spec, index) => (
             <motion.div
               key={index}
-              initial={{ opacity: 0, y: 50, rotateX: -10 }}
-              animate={isInView ? { opacity: 1, y: 0, rotateX: 0 } : {}}
-              transition={{ duration: 0.7, delay: index * 0.15, ease: "easeOut" }}
+              initial={{ opacity: 0, y: 60, scale: 0.8 }}
+              animate={isInView ? { opacity: 1, y: 0, scale: 1 } : {}}
+              transition={{ duration: 0.8, delay: index * 0.2, ease: "easeOut" }}
               onMouseEnter={() => setHoveredIndex(index)}
               onMouseLeave={() => setHoveredIndex(null)}
               className="group relative bg-black border border-white/10 rounded-lg p-8 transition-all duration-500 hover:border-[#E50914]/50 hover:bg-white/[0.02] overflow-hidden"
