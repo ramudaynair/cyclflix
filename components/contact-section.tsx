@@ -1,11 +1,13 @@
 "use client"
 
-import { motion } from "framer-motion"
+import { motion, useInView } from "framer-motion"
 import { Mail, Phone, MapPin } from "lucide-react"
 import { Button } from "@/components/ui/button"
-import { useState } from "react"
+import { useState, useRef } from "react"
 
 export function ContactSection() {
+  const ref = useRef(null)
+  const isInView = useInView(ref, { once: true, margin: "-20px", amount: 0.3 })
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null)
   return (
     <section id="contact" className="py-24 md:py-32 bg-black border-t border-white/5">
@@ -46,7 +48,7 @@ export function ContactSection() {
           </motion.p>
         </motion.div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
+        <div ref={ref} className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
           {[
             { icon: Mail, title: "Email", info: "info@cyclflix.com" },
             { icon: Phone, title: "Phone", info: "+1 (555) 123-4567" },
@@ -54,10 +56,9 @@ export function ContactSection() {
           ].map((contact, index) => (
             <motion.div
               key={index}
-              initial={{ opacity: 0, y: 40 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6, delay: index * 0.1 }}
+              initial={{ opacity: 0, y: 30, scale: 0.9 }}
+              animate={isInView ? { opacity: 1, y: 0, scale: 1 } : {}}
+              transition={{ duration: 0.6, delay: index * 0.1, ease: "easeOut" }}
               onMouseEnter={() => setHoveredIndex(index)}
               onMouseLeave={() => setHoveredIndex(null)}
               className="group relative text-center p-6 bg-white/[0.02] border border-white/10 rounded-xl transition-all duration-500 hover:border-[#E50914]/50 hover:bg-white/[0.02] overflow-hidden"
