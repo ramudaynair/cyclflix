@@ -53,7 +53,7 @@ export function TudumSplash({ onComplete }: { onComplete: () => void }) {
         {phase !== 'FINAL' && phase !== 'NETFLIX' && phase !== 'WHEEL' && (
           <motion.div
             key="logo"
-            className="relative"
+            className="relative w-32 h-48 md:w-40 md:h-56"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ 
@@ -75,30 +75,70 @@ export function TudumSplash({ onComplete }: { onComplete: () => void }) {
               transition={{ duration: 2.0, ease: "easeInOut" }}
             />
 
-            {/* C Logo */}
+            {/* Netflix N Logo */}
+            <svg viewBox="0 0 100 140" className="w-full h-full">
+              {/* Left vertical line */}
+              <motion.rect
+                x="10"
+                y="0"
+                width="18"
+                height="140"
+                fill="#E50914"
+                initial={{ scaleY: 0 }}
+                animate={{ scaleY: 1 }}
+                transition={{ duration: 0.6, ease: "easeOut" }}
+                style={{ transformOrigin: "top" }}
+              />
+              {/* Diagonal line */}
+              <motion.polygon
+                points="10,0 28,0 90,140 72,140"
+                fill="#B20710"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.4, delay: 0.4 }}
+              />
+              {/* Right vertical line */}
+              <motion.rect
+                x="72"
+                y="0"
+                width="18"
+                height="140"
+                fill="#E50914"
+                initial={{ scaleY: 0 }}
+                animate={{ scaleY: 1 }}
+                transition={{ duration: 0.6, delay: 0.2, ease: "easeOut" }}
+                style={{ transformOrigin: "bottom" }}
+              />
+              {/* Red glow effect */}
+              <motion.rect
+                x="10"
+                y="0"
+                width="18"
+                height="140"
+                fill="#E50914"
+                filter="url(#glow)"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: [0, 0.8, 0.4] }}
+                transition={{ duration: 1.5, delay: 0.8 }}
+              />
+              <defs>
+                <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
+                  <feGaussianBlur stdDeviation="8" result="coloredBlur" />
+                  <feMerge>
+                    <feMergeNode in="coloredBlur" />
+                    <feMergeNode in="SourceGraphic" />
+                  </feMerge>
+                </filter>
+              </defs>
+            </svg>
+
+            {/* Red light spread effect */}
             <motion.div
-              className="text-[160px] font-bold text-[#E50914] select-none"
-              style={{
-                fontFamily: 'Netflix Sans, system-ui, sans-serif',
-                fontWeight: 900
-              }}
-              initial={{ 
-                scale: 0.8,
-                textShadow: '0 0 0px rgba(229, 9, 20, 0)'
-              }}
-              animate={{
-                scale: phase === 'GLOW' ? 1.0 : 0.8,
-                textShadow: phase === 'GLOW' 
-                  ? '0 0 50px rgba(229, 9, 20, 0.8), 0 0 100px rgba(229, 9, 20, 0.4)' 
-                  : '0 0 20px rgba(229, 9, 20, 0.3)'
-              }}
-              transition={{ 
-                duration: 1.8,
-                ease: "easeInOut"
-              }}
-            >
-              C
-            </motion.div>
+              className="absolute inset-0 bg-gradient-radial from-[#E50914]/30 to-transparent"
+              initial={{ scale: 0.5, opacity: 0 }}
+              animate={{ scale: 2, opacity: [0, 0.6, 0] }}
+              transition={{ duration: 2, delay: 1 }}
+            />
           </motion.div>
         )}
 
