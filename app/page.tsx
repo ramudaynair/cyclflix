@@ -12,13 +12,25 @@ export default function Home() {
   useEffect(() => {
     const skipSplash = sessionStorage.getItem('skipSplash')
     const savedScrollY = sessionStorage.getItem('scrollPosition')
+    const scrollToPreorder = sessionStorage.getItem('scrollToPreorder')
     
-    console.log('Page load - skipSplash:', skipSplash, 'scrollPosition:', savedScrollY)
+    console.log('Page load - skipSplash:', skipSplash, 'scrollPosition:', savedScrollY, 'scrollToPreorder:', scrollToPreorder)
     
-    // Always skip splash if coming from any other page
-    if (skipSplash === 'true' || window.history.length > 1) {
+    // Skip splash only if explicitly set
+    if (skipSplash === 'true') {
       setContentReady(true)
-      if (savedScrollY) {
+      
+      if (scrollToPreorder === 'true') {
+        // Scroll to preorder section
+        setTimeout(() => {
+          const preorderSection = document.querySelector('[data-section="preorder"]')
+          if (preorderSection) {
+            preorderSection.scrollIntoView({ behavior: 'smooth' })
+            console.log('Scrolled to preorder section')
+          }
+          sessionStorage.removeItem('scrollToPreorder')
+        }, 100)
+      } else if (savedScrollY) {
         const scrollPosition = parseInt(savedScrollY)
         setTimeout(() => {
           window.scrollTo(0, scrollPosition)
@@ -31,7 +43,7 @@ export default function Home() {
         sessionStorage.removeItem('scrollPosition')
       }, 500)
     } else {
-      // Only show splash on fresh page load
+      // Show splash on fresh page load
       setShowSplash(true)
     }
   }, [])
